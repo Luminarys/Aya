@@ -8,6 +8,8 @@ Aya is a small, fast, and (soon-to-be) distributed torrent tracker. It is curren
 * Full public tracker support
 * Optional backend driver for use with a database
 * IPv6 support
+* Basic test coverage
+* Basic benchmarks
 
 ### Planned features:
 * Distribution
