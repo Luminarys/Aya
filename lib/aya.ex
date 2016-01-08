@@ -19,6 +19,13 @@ defmodule Aya do
     ]
 
     Logger.log :debug, "Starting Aya!"
+
+    if Application.get_env(:aya, :distributed, false) do
+      Node.set_cookie(Application.get_env(:aya, :cookie))
+    end
+
+    :ets.new(:torrents, [:duplicate_bag, :named_table, :public, {:read_concurrency, true}, {:write_concurrency, true}])
+
     :pg2.start()
     {:ok, pid} = Supervisor.start_link(children, strategy: :one_for_one)
     port = Application.get_env(:aya, :port, 4000)

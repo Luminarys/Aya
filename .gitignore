@@ -1,7 +1,7 @@
 /_build
 /cover
 /deps
-rel/
+rel/aya
 docs/
 bench/snapshots
 erl_crash.dump

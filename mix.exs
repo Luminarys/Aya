@@ -12,7 +12,7 @@ defmodule Aya.Mixfile do
 
   def application do
     [
-      applications: [:logger, :cowboy, :plug],
+      applications: [:logger, :cowboy, :plug, :gproc],
       included_applications: [:bencodex],
       mod: {Aya, []}
     ]
@@ -25,6 +25,7 @@ defmodule Aya.Mixfile do
       {:plug, "~> 1.0"},
       {:exrm, "~> 0.18.1"},
       {:poolboy, "~> 1.5"},
+      {:gproc, "~> 0.5.0"},
       {:eflame2, ~r/.*/, git: "https://github.com/slfritchie/eflame.git", compile: "rebar compile", app: false, env: :dev},
       {:httpoison, "~> 0.8.0", env: :dev},
       {:benchfella, "~> 0.3.0", env: :dev},

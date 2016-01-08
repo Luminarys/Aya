@@ -15,4 +15,8 @@ config :aya,
   reap_multiplier: 1.5,
   driver_pool_size: 10,
   require_passkey: false,
-  driver: Aya.Driver.Default
+  driver: Aya.Driver.Default,
+  distributed: false,
+  distributed_nodes: [{Node.self, 0..0}],
+  distributed_weight: 1,
+  cookie: "some_long_secure_string"

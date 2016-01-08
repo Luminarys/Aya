@@ -29,7 +29,6 @@ defmodule Aya.Scrape do
   Contacts a torrent GenServer and returns its scrape info.
   """
   def get_scrape(info_hash) do
-    {:ok, pid} = Aya.Util.get_torrent_proc(info_hash)
-    GenServer.call(pid, :scrape)
+    Aya.Util.find_and_call(info_hash, :scrape)
   end
 end

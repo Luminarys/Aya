@@ -31,8 +31,7 @@ defmodule Aya.Announce do
          {:ok, event} <- get_event(conn.params, left),
          {:ok, ip} <- validate_ip(conn.params, conn.remote_ip),
          :ok <- validate_event(event, user),
-         {:ok, pid} <- Aya.Util.get_torrent_proc(hash),
-         {:ok, resp} <- GenServer.call(pid, {:announce, params, {num_want, event, ip}, user}),
+         {:ok, resp} <- Aya.Util.find_and_call(hash, {:announce, params, {num_want, event, ip}, user}),
     do: {:ok, Plug.Conn.send_resp(conn, 200, resp)}
   end
 

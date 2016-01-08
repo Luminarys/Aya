@@ -8,9 +8,11 @@ defmodule Aya.Torrent do
   def init({hash}) do
     require Logger
     Logger.log :debug, "Started torrent with hash #{hash |> Base.encode16}!"
+
     :pg2.join(:torrents, self)
-    name = "torrent_#{hash |> Base.encode16}" |> String.to_atom
-    Process.register(self, name)
+    name = Aya.Util.get_name(hash)
+    :gproc.register_name({:n, :l, name}, self)
+
     reap_interval = Application.get_env(:aya, :reap_interval, 60) * 1000
     :erlang.send_after(reap_interval, self, :reap)
     {:ok, {hash, %{}, %{}}}
