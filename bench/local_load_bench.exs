@@ -1,4 +1,4 @@
-defmodule LoadBench do
+defmodule LocalLoadBench do
   use Benchfella
 
   @clients 1..50000

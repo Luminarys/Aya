@@ -15,3 +15,9 @@ Aya is a small, fast, and (soon-to-be) distributed torrent tracker. It is curren
 * Configure options in config/config.exs
 * Generate a release with `mix release`
 * Run the proper binary located in `rel/aya/bin/`
+
+## General TODO:
+* More documentation
+* More tests
+* More profiling and benchmarking
+* Planned features

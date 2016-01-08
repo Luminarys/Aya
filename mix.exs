@@ -11,7 +11,11 @@ defmodule Aya.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :cowboy, :plug], mod: {Aya, []}]
+    [
+      applications: [:logger, :cowboy, :plug],
+      included_applications: [:bencodex],
+      mod: {Aya, []}
+    ]
   end
 
   defp deps do
