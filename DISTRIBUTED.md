@@ -4,7 +4,7 @@
 ### Drawbacks
 * Substantially increased latency per request
 * Erlang distribution is NOT built for security
-* Reduced availability in the event of netsplits and partitions
+* Will not function perfectly in the event of a netsplit/partition
 
 ### Advantages
 * Ability to horizontally scale as necessary
