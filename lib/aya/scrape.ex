@@ -4,11 +4,19 @@ defmodule Aya.Scrape do
   @moduledoc """
   Handles scrape requests
   """
+
+  @doc """
+  Top level function for handling the scrape request.
+  """
   def handle(conn, user \\ nil) do
     resp = get_response(conn, user)
     Plug.Conn.send_resp(conn, 200, Bencodex.encode(%{"files" => resp}))
   end
 
+  @doc """
+  Runs a map over the client's requested torrents and gets scrape
+  info for each, returning a dict which contains all responses.
+  """
   def get_response(conn, _user) do
     conn = fetch_query_params(conn)
     conn.params
@@ -17,6 +25,9 @@ defmodule Aya.Scrape do
     |> Enum.into(%{})
   end
 
+  @doc """
+  Contacts a torrent GenServer and returns its scrape info.
+  """
   def get_scrape(info_hash) do
     {:ok, pid} = Aya.Util.get_torrent_proc(info_hash)
     GenServer.call(pid, :scrape)

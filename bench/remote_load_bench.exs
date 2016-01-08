@@ -14,7 +14,7 @@ defmodule RemoteLoadBench do
     id = Enum.random(@clients)
     left = Enum.random(@left)
     method = Enum.random(["announce", "scrape"])
-    [_bench,_file,tracker] = System.argv
+    [_bench,_file,tracker|_rest] = System.argv
     make_request(tracker, hash, id, 1000, method, 0, 0, left)
   end
 
