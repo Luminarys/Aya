@@ -1,7 +1,7 @@
 defmodule BencodeBench do
   use Benchfella
 
-  bench "bencode" do
+  bench "encode" do
     map =
     0..50
     |> Enum.map(fn n -> {n, n} end)

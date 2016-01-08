@@ -24,6 +24,7 @@ defmodule Aya.Mixfile do
       {:bencodex, "~> 1.0"},
       {:plug, "~> 1.0"},
       {:exrm, "~> 0.18.1"},
+      {:poolboy, "~> 1.5"},
       {:eflame2, ~r/.*/, git: "https://github.com/slfritchie/eflame.git", compile: "rebar compile", app: false, env: :dev},
       {:httpoison, "~> 0.8.0", env: :dev},
       {:benchfella, "~> 0.3.0", env: :dev},

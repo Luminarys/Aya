@@ -6,6 +6,9 @@ defmodule Aya.Driver do
   * `check_torrent` - Validates a torrent hash and the previously defined user variable
   * `check_event` - Validates an event and the user variable
   * `handle_announce` - Handles a full announce request with new reported stats from a user
+
+  All driver functions are simply sugar around standard GenServer calls. They will
+  all be passed a state variable and should return a response in the form {response, new_state}.
   """
 
   defmacro __using__(_args) do
@@ -19,6 +22,7 @@ defmodule Aya.Driver do
       @type ul :: number
       @type dl :: number
       @type left :: number
+      @type state :: any
 
       def start_link(opts \\ []) do
         {:ok, _pid} = GenServer.start_link(__MODULE__, :ok, opts)
@@ -29,54 +33,58 @@ defmodule Aya.Driver do
       def init(:ok) do
         require Logger
         Logger.log :debug, "Started driver!"
-        {:ok, []}
+        {:ok, nil}
       end
 
       defoverridable init: 1
 
       def handle_call({:check_passkey, passkey}, _from, state) do
-        {:reply, check_passkey(passkey), state}
+        {reply, new_state} = check_passkey(passkey, state)
+        {:reply, reply, new_state}
       end
 
-      @spec check_passkey(passkey) :: {:ok, user} | {:error, String.t}
-      def check_passkey(_passkey) do
-        {:ok, nil}
+      @spec check_passkey(passkey, state) :: {{:ok, user}, state} | {{:error, String.t}, state}
+      def check_passkey(_passkey, state) do
+        {{:ok, nil}, state}
       end
 
-      defoverridable check_passkey: 1
+      defoverridable check_passkey: 2
 
       def handle_call({:check_torrent, hash, user}, _from, state) do
-        {:reply, check_torrent(hash, user), state}
+        {reply, new_state} = check_torrent(hash, user, state)
+        {:reply, reply, new_state}
       end
 
-      @spec check_torrent(hash, user) :: :ok | {:error, String.t}
-      def check_torrent(_hash, _user) do
-        :ok
+      @spec check_torrent(hash, user, state) :: {:ok, state} | {{:error, String.t}, state}
+      def check_torrent(_hash, _user, state) do
+        {:ok, state}
       end
 
-      defoverridable check_torrent: 2
+      defoverridable check_torrent: 3
 
       def handle_call({:check_event, event, user}, _from, state) do
-        {:reply, check_event(event, user), state}
+        {reply, new_state} = check_event(event, user, state)
+        {:reply, reply, new_state}
       end
 
-      @spec check_event(any, user) :: :ok | {:error, String.t}
-      def check_event(_event, _user) do
-        :ok
+      @spec check_event(any, user, state) :: {:ok, state} | {{:error, String.t}, state}
+      def check_event(_event, _user, state) do
+        {:ok, state}
       end
 
-      defoverridable check_event: 2
+      defoverridable check_event: 3
 
-      def handle_cast({:announce, params, user}, state) do
-        handle_announce(params, user)
-        {:noreply, state}
+      def handle_call({:announce, params, user}, _from, state) do
+        new_state = handle_announce(params, user, state)
+        {:reply, :ok, state}
       end
 
-      @spec handle_announce({hash, ul, dl, left, event}, user) :: any
-      def handle_announce(_params, _user) do
+      @spec handle_announce({hash, ul, dl, left, event}, user, state) :: state
+      def handle_announce(_params, _user, state) do
+        state
       end
 
-      defoverridable handle_announce: 2
+      defoverridable handle_announce: 3
     end
   end
 end

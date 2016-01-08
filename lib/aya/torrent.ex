@@ -20,7 +20,9 @@ defmodule Aya.Torrent do
     {hash, peer_id, port, ul, dl, left} = params
     {num_want, event, ip} = extra_params
 
-    GenServer.cast(Aya.Driver, {:announce, {hash, ul, dl, left, event}, user})
+    driver = :poolboy.checkout(:driver_pool)
+    :ok = GenServer.call(driver, {:announce, {hash, ul, dl, left, event}, user})
+    :poolboy.checkin(:driver_pool, driver)
 
     {new_seeders, new_leechers} = handle_event(event, seeders, leechers, {peer_id, port, ip})
 

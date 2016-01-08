@@ -13,5 +13,6 @@ config :aya,
   whitelist: [],
   reap_interval: 60,
   reap_multiplier: 1.5,
+  driver_pool_size: 10,
   require_passkey: false,
   driver: Aya.Driver.Default

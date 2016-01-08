@@ -1,11 +1,11 @@
 defmodule Aya do
   use Application
 
-  def start(_type, []) do
-    start_aya
-  end
+  @moduledoc """
+  Aya is a fast, lightweight torrent tracker.
+  """
 
-  def start(_type, [:profile]) do
+  def start(_type, []) do
     start_aya
   end
 
@@ -13,11 +13,9 @@ defmodule Aya do
     import Supervisor.Spec, warn: false
     require Logger
 
-    driver = Application.get_env(:aya, :driver, Aya.Driver.Default)
-
     children = [
       supervisor(Aya.TorrentSupervisor, [[name: Aya.TorrentSupervisor]]),
-      worker(driver, [[name: Aya.Driver]])
+      supervisor(Aya.Driver.Supervisor, [[name: Aya.Driver.Supervisor]])
     ]
 
     Logger.log :debug, "Starting Aya!"

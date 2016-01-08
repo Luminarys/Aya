@@ -7,17 +7,23 @@ defmodule Aya.Router do
 
   if Application.get_env(:aya, :require_passkey, false) do
     get "/:passkey/announce" do
-      case GenServer.call(Aya.Driver, {:check_passkey, passkey}) do
+      driver = :poolboy.checkout(:driver_pool)
+      response = case GenServer.call(driver, {:check_passkey, passkey}) do
         {:ok, user} -> Aya.Announce.handle(conn, user)
         {:error, reason} -> Aya.Util.bad_request(conn, reason)
       end
+      :poolboy.checkin(:driver_pool, driver)
+      response
     end
 
     get "/:passkey/scrape" do
-      case GenServer.call(Aya.Driver, {:check_passkey, passkey}) do
+      driver = :poolboy.checkout(:driver_pool)
+      response = case GenServer.call(driver, {:check_passkey, passkey}) do
         {:ok, user} -> Aya.Scrape.handle(conn, user)
         {:error, reason} -> Aya.Util.bad_request(conn, reason)
       end
+      :poolboy.checkin(:driver_pool, driver)
+      response
     end
   else
     get "/announce" do

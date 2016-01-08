@@ -87,7 +87,7 @@ defmodule Aya.Announce do
   """
   def get_num_want(params) do
     max_peers = Application.get_env(:aya, :max_returned_peers, 50)
-    {:ok, amount} = get_int(params, "num_want", max_peers)
+    {:ok, amount} = get_int(params, "num_want", {:ok, max_peers})
     if amount > max_peers || amount < 1 do
       {:ok, max_peers}
     else
@@ -140,14 +140,18 @@ defmodule Aya.Announce do
   Uses the driver to check if a torrent's hash is acceptable.
   """
   def validate_torrent(hash, user) do
-    GenServer.call(Aya.Driver, {:check_torrent, hash, user})
+    driver = :poolboy.checkout(:driver_pool)
+    GenServer.call(driver, {:check_torrent, hash, user})
+    :poolboy.checkin(:driver_pool, driver)
   end
 
   @doc """
   Uses the driver to check if an client event is acceptable.
   """
   def validate_event(event, user) do
-    GenServer.call(Aya.Driver, {:check_event, event, user})
+    driver = :poolboy.checkout(:driver_pool)
+    GenServer.call(driver, {:check_event, event, user})
+    :poolboy.checkin(:driver_pool, driver)
   end
 
   @doc """
