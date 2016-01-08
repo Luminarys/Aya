@@ -1,5 +1,7 @@
 # Aya
 
+[![Inline docs](http://inch-ci.org/github/Luminarys/Aya.svg)](http://inch-ci.org/github/Luminarys/Aya)
+
 Aya is a small, fast, and (soon-to-be) distributed torrent tracker. It is currently is in early alpha, but supports most of the BitTorrent specification along with the IPv6 extension.
 
 ### Current features:

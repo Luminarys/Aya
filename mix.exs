@@ -26,7 +26,8 @@ defmodule Aya.Mixfile do
       {:exrm, "~> 0.18.1"},
       {:eflame2, ~r/.*/, git: "https://github.com/slfritchie/eflame.git", compile: "rebar compile", app: false, env: :dev},
       {:httpoison, "~> 0.8.0", env: :dev},
-      {:benchfella, "~> 0.3.0", env: :dev}
+      {:benchfella, "~> 0.3.0", env: :dev},
+      {:inch_ex, only: :docs}
     ]
   end
 end

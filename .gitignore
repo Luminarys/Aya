@@ -2,6 +2,7 @@
 /cover
 /deps
 rel/
+docs/
 bench/snapshots
 erl_crash.dump
 *.ez
