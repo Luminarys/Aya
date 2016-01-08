@@ -1,0 +1,7 @@
+/_build
+/cover
+/deps
+rel/
+bench/snapshots
+erl_crash.dump
+*.ez
