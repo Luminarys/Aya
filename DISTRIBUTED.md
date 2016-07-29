@@ -18,6 +18,7 @@ a strong cookie should be chosen for usage. SSL may be included later in Aya for
 ## Setup
 Currently support for distributing Aya is untested, and just beginning to be implemented.
 These instructions are all subject to change as a result.
+
 1. Setup config.exs to support distribution. A total distributed weight should be given, and a list of node names.
 Each node should be given in the form `{node_name, range}`. The range will determine the weighted change of a node
 being used for a certain torrent. For example, if two nodes were used and each were equally powerful,
